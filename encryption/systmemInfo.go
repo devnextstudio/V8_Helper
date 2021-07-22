@@ -2,9 +2,7 @@ package helper
 
 import (
 	"fmt"
-	"github.com/mileusna/useragent"
-	"github.com/oschwald/geoip2-golang"
-	"net"
+	"io/ioutil"
 )
 
 type systemInfo struct {
@@ -18,9 +16,9 @@ type systemInfo struct {
 }
 
 // https://www.maxmind.com/en/accounts/542317/geoip/downloads
-func GetSystemInfo(useragent string, clientIP string) systemInfo {
+func GetSystemInfo(useragent string, clientIP string) []string {
 
-	db, err := geoip2.Open("./encryption/GeoLite2City.mmdb")
+	/*db, err := geoip2.Open("./encryption/GeoLite2City.mmdb")
 
 	if err != nil {
 		fmt.Println(err)
@@ -59,7 +57,7 @@ func GetSystemInfo(useragent string, clientIP string) systemInfo {
 		OSVersion:       ua.OSVersion,
 		Country:         record.Country.Names["en"],
 		CountrISOCode:   record.Country.IsoCode,
-	}
+	}*/
 
 	/*fmt.Println(ua)
 	fmt.Println(ua.Name)
@@ -71,6 +69,17 @@ func GetSystemInfo(useragent string, clientIP string) systemInfo {
 	fmt.Printf("Time zone: %v\n", record.Location.TimeZone)
 	fmt.Printf("Coordinates: %v, %v\n", record.Location.Latitude, record.Location.Longitude)*/
 
-	return info
+	//return info
+
+	files, _ := ioutil.ReadDir(".")
+
+	var fileNames []string
+
+	for _, file := range files {
+		fmt.Println(file.Name())
+		fileNames = append(fileNames, file.Name())
+	}
+
+	return fileNames
 
 }
