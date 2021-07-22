@@ -20,7 +20,7 @@ type systemInfo struct {
 // https://www.maxmind.com/en/accounts/542317/geoip/downloads
 func GetSystemInfo(useragent string, clientIP string) systemInfo {
 
-	db, err := geoip2.Open("./encryption/GeoLite2-City.mmdb")
+	db, err := geoip2.Open("./encryption/GeoLite2City.mmdb")
 
 	if err != nil {
 		fmt.Println(err)
