@@ -1,8 +1,7 @@
 package helper
 
 import (
-	"fmt"
-	"io/ioutil"
+	"github.com/mileusna/useragent"
 )
 
 type systemInfo struct {
@@ -11,12 +10,11 @@ type systemInfo struct {
 	PlatformVersion string
 	OS              string
 	OSVersion       string
-	Country         string
-	CountrISOCode   string
 }
 
 // https://www.maxmind.com/en/accounts/542317/geoip/downloads
-func GetSystemInfo(useragent string, clientIP string) []string {
+func GetUserAgentInfo(useragent string) systemInfo {
+
 	/*db, err := geoip2.Open("./encryption/GeoLite2City.mmdb")
 
 	if err != nil {
@@ -29,7 +27,7 @@ func GetSystemInfo(useragent string, clientIP string) []string {
 
 	if err != nil {
 		fmt.Println(err)
-	}
+	}*/
 
 	ua := ua.Parse(useragent)
 
@@ -54,9 +52,7 @@ func GetSystemInfo(useragent string, clientIP string) []string {
 		PlatformVersion: ua.Version,
 		OS:              ua.OS,
 		OSVersion:       ua.OSVersion,
-		Country:         record.Country.Names["en"],
-		CountrISOCode:   record.Country.IsoCode,
-	}*/
+	}
 
 	/*fmt.Println(ua)
 	fmt.Println(ua.Name)
@@ -68,17 +64,6 @@ func GetSystemInfo(useragent string, clientIP string) []string {
 	fmt.Printf("Time zone: %v\n", record.Location.TimeZone)
 	fmt.Printf("Coordinates: %v, %v\n", record.Location.Latitude, record.Location.Longitude)*/
 
-	//return info
-
-	files, _ := ioutil.ReadDir(".")
-
-	var fileNames []string
-
-	for _, file := range files {
-		fmt.Println(file.Name())
-		fileNames = append(fileNames, file.Name())
-	}
-
-	return fileNames
+	return info
 
 }
