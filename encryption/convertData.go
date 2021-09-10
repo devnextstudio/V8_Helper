@@ -31,3 +31,17 @@ func ConvertQuery(encryptString string) map[string]string {
 	return m
 
 }
+
+func ConvertData(encryptString string) string {
+
+	crypto := GetCrypto()
+
+	decryptoString, err := crypto.Decrypt(encryptString)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return decryptoString
+
+}
