@@ -1,7 +1,9 @@
 package database
 
 import (
+	"database/sql"
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -34,4 +36,25 @@ func Open() (db *gorm.DB) {
 	}
 
 	return
+
+}
+
+func LowCodeOpen() (db *sql.DB) {
+
+	dbSource := fmt.Sprintf(
+		"%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
+		user,
+		pass,
+		host,
+		name,
+	)
+
+	db, err := sql.Open("mysql", dbSource)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return
+
 }
