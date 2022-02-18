@@ -51,7 +51,12 @@ func LowCodeOpen() (db *sql.DB) {
 
 	db, err := sql.Open("mysql", dbSource)
 
+	db.SetMaxIdleConns(10)
+	db.SetMaxOpenConns(100)
+
 	if err != nil {
+		fmt.Println("Connection Error: ")
+		fmt.Println(err.Error())
 		panic(err)
 	}
 
