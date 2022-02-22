@@ -1,7 +1,6 @@
 package database
 
 import (
-	"database/sql"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"gorm.io/driver/mysql"
@@ -11,19 +10,20 @@ import (
 )
 
 var (
-	host = os.Getenv("DB_HOST")
-	user = os.Getenv("DB_USER")
-	name = os.Getenv("DB_NAME")
-	pass = os.Getenv("DB_PASSWORD")
+	whost = os.Getenv("WRITE_DB_HOST")
+	rhost = os.Getenv("READ_DB_HOST")
+	user  = os.Getenv("DB_USER")
+	name  = os.Getenv("DB_NAME")
+	pass  = os.Getenv("DB_PASSWORD")
 )
 
-func Open() (db *gorm.DB) {
+func WDBOpen() (db *gorm.DB) {
 
 	dbSource := fmt.Sprintf(
 		"%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
 		user,
 		pass,
-		host,
+		whost,
 		name,
 	)
 
@@ -39,7 +39,29 @@ func Open() (db *gorm.DB) {
 
 }
 
-func LowCodeOpen() (db *sql.DB) {
+func RDBOpen() (db *gorm.DB) {
+
+	dbSource := fmt.Sprintf(
+		"%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
+		user,
+		pass,
+		rhost,
+		name,
+	)
+
+	db, err := gorm.Open(mysql.Open(dbSource), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Info),
+	})
+
+	if err != nil {
+		panic(err)
+	}
+
+	return
+
+}
+
+/*func LowCodeOpen() (db *sql.DB) {
 
 	dbSource := fmt.Sprintf(
 		"%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
@@ -62,4 +84,4 @@ func LowCodeOpen() (db *sql.DB) {
 
 	return
 
-}
+}*/
