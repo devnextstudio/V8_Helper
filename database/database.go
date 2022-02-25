@@ -1,6 +1,7 @@
 package database
 
 import (
+	"database/sql"
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -60,13 +61,13 @@ func RDBOpen() (db *gorm.DB) {
 
 }
 
-/*func LowCodeOpen() (db *sql.DB) {
+func LowCodeWriteOpen() (db *sql.DB) {
 
 	dbSource := fmt.Sprintf(
 		"%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
 		user,
 		pass,
-		host,
+		whost,
 		name,
 	)
 
@@ -83,4 +84,29 @@ func RDBOpen() (db *gorm.DB) {
 
 	return
 
-}*/
+}
+
+func LowCodeReadOpen() (db *sql.DB) {
+
+	dbSource := fmt.Sprintf(
+		"%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
+		user,
+		pass,
+		rhost,
+		name,
+	)
+
+	db, err := sql.Open("mysql", dbSource)
+
+	db.SetMaxIdleConns(10)
+	db.SetMaxOpenConns(100)
+
+	if err != nil {
+		fmt.Println("Connection Error: ")
+		fmt.Println(err.Error())
+		panic(err)
+	}
+
+	return
+
+}
