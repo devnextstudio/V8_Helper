@@ -7,6 +7,7 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"os"
+	"time"
 )
 
 var (
@@ -73,8 +74,12 @@ func LowCodeWriteOpen() (db *sql.DB) {
 
 	db, err := sql.Open("mysql", dbSource)
 
-	db.SetMaxIdleConns(10)
-	db.SetMaxOpenConns(100)
+	//db.SetMaxIdleConns(10)
+	//db.SetMaxOpenConns(100)
+
+	db.SetConnMaxLifetime(time.Second * 5)
+	db.SetMaxIdleConns(0)
+	db.SetMaxOpenConns(151)
 
 	if err != nil {
 		fmt.Println("Connection Error: ")
@@ -98,8 +103,12 @@ func LowCodeReadOpen() (db *sql.DB) {
 
 	db, err := sql.Open("mysql", dbSource)
 
-	db.SetMaxIdleConns(10)
-	db.SetMaxOpenConns(100)
+	//db.SetMaxIdleConns(10)
+	//db.SetMaxOpenConns(100)
+
+	db.SetConnMaxLifetime(time.Second * 5)
+	db.SetMaxIdleConns(0)
+	db.SetMaxOpenConns(151)
 
 	if err != nil {
 		fmt.Println("Connection Error: ")
