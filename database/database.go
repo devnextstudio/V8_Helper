@@ -18,6 +18,8 @@ var (
 	pass  = os.Getenv("DB_PASSWORD")
 )
 
+func init() {}
+
 func Open() (db *gorm.DB) {
 
 	dbSource := fmt.Sprintf(
