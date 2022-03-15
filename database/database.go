@@ -18,6 +18,27 @@ var (
 	pass  = os.Getenv("DB_PASSWORD")
 )
 
+func Open() (db *gorm.DB) {
+
+	dbSource := fmt.Sprintf(
+		"%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
+		user,
+		pass,
+		whost,
+		name,
+	)
+
+	db, err := gorm.Open(mysql.Open(dbSource), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Info),
+	})
+
+	if err != nil {
+		panic(err)
+	}
+
+	return
+}
+
 func WDBOpen() (db *gorm.DB) {
 
 	dbSource := fmt.Sprintf(
